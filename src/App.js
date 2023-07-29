@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import './App.css';
 import Swal from 'sweetalert2'
 import Logo from './Logo.png';
+import html2pdf from 'html2pdf.js';
+
 
 function ResumeBuilder() {
   const [fullName, setFullName] = useState("");
@@ -160,59 +162,73 @@ function ResumeBuilder() {
   };
 
   // Print the resume ------------------------------------
-  const handlePrint = () => {
-    const printDiv = document.getElementById("print-preview");
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-    const iframeWindow = iframe.contentWindow;
-    const printDocument = iframeWindow.document;
+  // const handlePrint = () => {
+  //   const printDiv = document.getElementById("print-preview");
+  //   const iframe = document.createElement("iframe");
+  //   iframe.style.display = "none";
+  //   document.body.appendChild(iframe);
+  //   const iframeWindow = iframe.contentWindow;
+  //   const printDocument = iframeWindow.document;
 
-    // Define print-specific styles in the iframe's document
-    printDocument.open();
-    printDocument.write(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Print Resume</title>
-        <link rel="stylesheet" href="path/to/print-styles.css" media="print">
-        <!-- Link the external CSS file for print styles -->
-        <style>
-        /* Add any additional styles directly here if needed */
-        @media print {
-          .text-break { /* Add the 'text-break' className to long text elements */
-            word-wrap: break-word;
-          }
-          // Use when two column
-          // .col-6 {
-          //   float: left;
-          //   width: 50%;
-          // }
-          .name{
-            text-align: center;
-            text-transform: uppercase;
-          }
-          .details {
-            text-align: center;
-          }
-          body {
-            font-family: Arial, Helvetica, sans-serif;
-          }
-          hr {
-            border: 1px solid black;
-          }
-        </style>
-      </head>
-      <body>
-        ${printDiv.innerHTML}
-      </body>
-    </html>
-  `);
-    printDocument.close();
+  //   // Define print-specific styles in the iframe's document
+  //   printDocument.open();
+  //   printDocument.write(`
+  //   <!DOCTYPE html>
+  //   <html>
+  //     <head>
+  //       <title>Print Resume</title>
+  //       <link rel="stylesheet" href="path/to/print-styles.css" media="print">
+  //       <!-- Link the external CSS file for print styles -->
+  //       <style>
+  //       /* Add any additional styles directly here if needed */
+  //       @media print {
+  //         .text-break { /* Add the 'text-break' className to long text elements */
+  //           word-wrap: break-word;
+  //         }
+  //         // Use when two column
+  //         // .col-6 {
+  //         //   float: left;
+  //         //   width: 50%;
+  //         // }
+  //         .name{
+  //           text-align: center;
+  //           text-transform: uppercase;
+  //         }
+  //         .details {
+  //           text-align: center;
+  //         }
+  //         body {
+  //           font-family: Arial, Helvetica, sans-serif;
+  //         }
+  //         hr {
+  //           border: 1px solid black;
+  //         }
+  //       </style>
+  //     </head>
+  //     <body>
+  //       ${printDiv.innerHTML}
+  //     </body>
+  //   </html>
+  // `);
+  //   printDocument.close();
 
-    iframeWindow.focus();
-    iframeWindow.print();
-    document.body.removeChild(iframe);
+  //   iframeWindow.focus();
+  //   iframeWindow.print();
+  //   document.body.removeChild(iframe);
+  // };
+
+  // Download the resume -------------------
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('print-preview');
+    const opt = {
+      margin: 10,
+      filename: 'resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    html2pdf().from(element).set(opt).save();
   };
 
 
@@ -223,9 +239,9 @@ function ResumeBuilder() {
         <div className="container-fluid">
           <span className="navbar-brand h1">
             <img src={Logo} alt='logo' />
-            <span className='appname'> Resume Generator</span>
+            <span className='appname'> ResumeMake</span>
           </span>
-          <span className='text-white'>Welcome to my Resume Generator App!</span>
+          <span className='text-white'>Welcome to my ResumeMake App!</span>
         </div>
       </nav>
       {/* Form Start ----------------------------- */}
@@ -418,9 +434,9 @@ function ResumeBuilder() {
       {/* Form End ----------------------------- */}
 
       {/* Resume Preview Start ------------------------- */}
-      <div>
-        <h2 className="text-center mt-4">Resume Preview</h2>
-        <div id="print-preview" className="border border-dark" style={{ maxWidth: '60%', width: '100%', margin: '20px auto', padding: '20px' }}>
+      <h2 className="text-center mt-4">Resume Preview</h2>
+      <div className="border border-dark" style={{ maxWidth: '60%', width: '100%', margin: '10px auto', padding: '20px' }}>
+        <div id="print-preview">
           <h1 className="name text-uppercase" style={{ textAlign: 'center' }}>{fullName}</h1>
           <div className="details" style={{ textAlign: 'center' }}>
             {email} | {phoneNumber} | {address} <br />
@@ -499,9 +515,13 @@ function ResumeBuilder() {
         </div>
       </div>
       {/* Resume Preview End ------------------------- */}
+
       {/* Print resume button --------------------- */}
-      <div className="d-grid  col-4 mx-auto">
-        <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button>
+      <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+        {/* <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button> */}
+        <button className="btn btn-dark" onClick={handleDownloadPDF}>
+          Download Resume as PDF
+        </button>
       </div>
 
       {/* Footer */}
@@ -509,7 +529,7 @@ function ResumeBuilder() {
         <div className="container">
           <span>
             – Thanks for visiting! – <br />
-            Resume Generator | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
+            ResumeMake | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
           </span>
         </div>
       </footer>
