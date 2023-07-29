@@ -517,7 +517,7 @@ function ResumeBuilder() {
       {/* Resume Preview End ------------------------- */}
 
       {/* Print resume button --------------------- */}
-      <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+      <div className="button">
         {/* <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button> */}
         <button className="btn btn-dark" onClick={handleDownloadPDF}>
           Download Resume as PDF
