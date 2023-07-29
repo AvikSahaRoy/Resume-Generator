@@ -434,8 +434,8 @@ function ResumeBuilder() {
       {/* Form End ----------------------------- */}
 
       {/* Resume Preview Start ------------------------- */}
-      <h2 className="text-center mt-4">Resume Preview</h2>
-      <div className="border border-dark" style={{ maxWidth: '60%', width: '100%', margin: '10px auto', padding: '20px' }}>
+      <h2 className="text-center mt-4 mb-3">Resume Preview</h2>
+      <div className="border border-dark" >
         <div id="print-preview">
           <h1 className="name text-uppercase" style={{ textAlign: 'center' }}>{fullName}</h1>
           <div className="details" style={{ textAlign: 'center' }}>
@@ -517,7 +517,7 @@ function ResumeBuilder() {
       {/* Resume Preview End ------------------------- */}
 
       {/* Print resume button --------------------- */}
-      <div className="button">
+      <div className="button mt-4">
         {/* <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button> */}
         <button className="btn btn-dark" onClick={handleDownloadPDF}>
           Download Resume as PDF
@@ -525,7 +525,7 @@ function ResumeBuilder() {
       </div>
 
       {/* Footer */}
-      <footer className="container footer  bg-dark text-white text-center " style={{ marginTop: "39px" }}>
+      <footer className="container footer  bg-dark text-white text-center " style={{ marginTop: "30px" }}>
         <div className="container">
           <span>
             – Thanks for visiting! – <br />

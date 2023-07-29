@@ -25,6 +25,13 @@ hr {
   justify-content: center;
 }
 
+.border {
+  max-width: 60%;
+  width: 100%;
+  margin: 10px auto;
+  padding: 20px;
+}
+
 
 @media only screen and (max-width: 400px) {
   .contaiiner {
@@ -35,6 +42,9 @@ hr {
 @media only screen and (max-width: 767px) {
   .addLink {
     margin-top: 0;
+  }
+  .border {
+    max-width: 90%;
   }
 }
 
