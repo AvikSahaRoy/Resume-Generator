@@ -223,9 +223,9 @@ function ResumeBuilder() {
         <div className="container-fluid">
           <span className="navbar-brand h1">
             <img src={Logo} alt='logo' />
-            <span className='appname'> Resume Generator</span>
+            <span className='appname'> ResumeMake</span>
           </span>
-          <span className='text-white'>Welcome to my Resume Generator App!</span>
+          <span className='text-white'>Welcome to my ResumeMake App!</span>
         </div>
       </nav>
       {/* Form Start ----------------------------- */}
@@ -509,7 +509,7 @@ function ResumeBuilder() {
         <div className="container">
           <span>
             – Thanks for visiting! – <br />
-            Resume Generator | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
+            ResumeMake | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
           </span>
         </div>
       </footer>
