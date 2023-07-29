@@ -201,6 +201,13 @@ function ResumeBuilder() {
           hr {
             border: 1px solid black;
           }
+          #print-preview {
+            display: block; /* Ensure the 'print-preview' section is visible when printing */
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          }
         </style>
       </head>
       <body>
@@ -223,9 +230,9 @@ function ResumeBuilder() {
         <div className="container-fluid">
           <span className="navbar-brand h1">
             <img src={Logo} alt='logo' />
-            <span className='appname'> ResumeMake</span>
+            <span className='appname'> Resume Generator</span>
           </span>
-          <span className='text-white'>Welcome to my ResumeMake App!</span>
+          <span className='text-white'>Welcome to my Resume Generator App!</span>
         </div>
       </nav>
       {/* Form Start ----------------------------- */}
@@ -509,7 +516,7 @@ function ResumeBuilder() {
         <div className="container">
           <span>
             – Thanks for visiting! – <br />
-            ResumeMake | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
+            Resume Generator | <span className="far fa-copyright" aria-hidden="true"></span> 2023 All Rights Reserved.
           </span>
         </div>
       </footer>
