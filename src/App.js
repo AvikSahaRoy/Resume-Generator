@@ -201,13 +201,6 @@ function ResumeBuilder() {
           hr {
             border: 1px solid black;
           }
-          #print-preview {
-            display: block; /* Ensure the 'print-preview' section is visible when printing */
-            max-width: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-          }
         </style>
       </head>
       <body>
