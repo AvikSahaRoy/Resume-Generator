@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import Swal from 'sweetalert2'
 import Logo from './Logo.png';
@@ -56,6 +56,7 @@ function ResumeBuilder() {
     setLinks([...links, link]);
     setLink("");
   };
+
 
   // Add Experience --------------------
   const addExperience = () => {
@@ -218,8 +219,21 @@ function ResumeBuilder() {
   // };
 
   // Download the resume -------------------
-  const handleDownloadPDF = () => {
-    const element = document.getElementById('print-preview');
+  const handleDownloadPDF1 = () => {
+    const element = document.getElementById('print-preview1');
+    const opt = {
+      margin: 10,
+      filename: 'resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    html2pdf().from(element).set(opt).save();
+  };
+
+  const handleDownloadPDF2 = () => {
+    const element = document.getElementById('print-preview2');
     const opt = {
       margin: 10,
       filename: 'resume.pdf',
@@ -280,7 +294,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your profile link" />
             </div>
             <div className="mb-3 col-md-4">
-              <button className="btn btn-success addLink" onClick={addLink}>Add Link</button>
+              <button className="btn btn-success addLink me-2" onClick={addLink}>Add Link</button>
+              <button onClick={() => setLinks((prevLinks) => prevLinks.slice(0, prevLinks.length - 1))}
+                className="btn btn-danger addLink"> Remove Link</button>
             </div>
           </div>
         </div>
@@ -333,7 +349,9 @@ function ResumeBuilder() {
                     className="form-control" placeholder="Enter your company description" />
                 </div>
                 <div className="mb-3 col-md-6">
-                  <button className="btn btn-success" onClick={addExperience}>Add Experience</button>
+                  <button className="btn btn-success me-2 mt-2" onClick={addExperience}>Add Experience</button>
+                  <button onClick={() => setExperiences((prevExperiences) => prevExperiences.slice(0, prevExperiences.length - 1))}
+                    className="btn btn-danger mt-2"> Remove Experience</button>
                 </div>
               </div>
             </>
@@ -364,7 +382,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your marks" />
             </div>
             <div className="mb-3 col-md-6">
-              <button className="btn btn-success" onClick={addEducation}>Add Education</button>
+              <button className="btn btn-success me-2 mt-2" onClick={addEducation}>Add Education</button>
+              <button onClick={() => setEducations((prevEducation) => prevEducation.slice(0, prevEducation.length - 1))}
+                className="btn btn-danger mt-2"> Remove Education</button>
             </div>
           </div>
         </div>
@@ -378,7 +398,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your skill" />
             </div>
             <div className="mb-3">
-              <button className="btn btn-success" onClick={addSkill}>Add Skill</button>
+              <button className="btn btn-success me-2 mt-2" onClick={addSkill}>Add Skill</button>
+              <button onClick={() => setSkills((prevSkills) => prevSkills.slice(0, prevSkills.length - 1))}
+                className="btn btn-danger mt-2"> Remove Skill</button>
             </div>
           </div>
         </div>
@@ -397,7 +419,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your project description" />
             </div>
             <div className="mb-3 col-md-6">
-              <button className="btn btn-success" onClick={addProject}>Add Project</button>
+              <button className="btn btn-success me-2 mt-2" onClick={addProject}>Add Project</button>
+              <button onClick={() => setProjects((prevProjects) => prevProjects.slice(0, prevProjects.length - 1))}
+                className="btn btn-danger mt-2"> Remove Project</button>
             </div>
           </div>
         </div>
@@ -411,7 +435,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your interest" />
             </div>
             <div className="mb-3">
-              <button onClick={addInterest} className="btn btn-success">Add Interest</button>
+              <button onClick={addInterest} className="btn btn-success me-2 mt-2">Add Interest</button>
+              <button onClick={() => setInterests((prevInterest) => prevInterest.slice(0, prevInterest.length - 1))}
+                className="btn btn-danger mt-2"> Remove Interest</button>
             </div>
           </div>
         </div>
@@ -425,7 +451,9 @@ function ResumeBuilder() {
                 className="form-control" placeholder="Enter your certification course" />
             </div>
             <div className="mb-3">
-              <button className="btn btn-success" onClick={addCertificationCourse}>Add Certification Course</button>
+              <button className="btn btn-success me-2 mt-2" onClick={addCertificationCourse}>Add Certification</button>
+              <button onClick={() => setCertificationCourse((prevCertification) => prevCertification.slice(0, prevCertification.length - 1))}
+                className="btn btn-danger mt-2"> Remove Certification</button>
             </div>
           </div>
         </div>
@@ -433,15 +461,18 @@ function ResumeBuilder() {
       </div>
       {/* Form End ----------------------------- */}
 
-      {/* Resume Preview Start ------------------------- */}
-      <h2 className="text-center mt-4 mb-3">Resume Preview</h2>
+      {/* Resume Preview Start 1 ------------------------- */}
+      <h2 className="text-center mt-4 mb-3 bg-dark text-white container p-2 rounded-pill">Resume Preview</h2>
+      <h2 className="text-center mt-4 mb-3">Resume 1</h2>
       <div className="border border-dark" >
-        <div id="print-preview">
+        <div id="print-preview1">
           <h1 className="name text-uppercase" style={{ textAlign: 'center' }}>{fullName}</h1>
           <div className="details" style={{ textAlign: 'center' }}>
-            {email} | {phoneNumber} | {address} <br />
+            <i class="bi bi-envelope-fill"></i> {email} &nbsp;
+            <i class="bi bi-telephone-fill"></i> {phoneNumber} &nbsp;
+            <i class="bi bi-geo-alt-fill"></i> {address} <br />
             {links.map((link, index) => (
-              <span className="text-break" key={index}> {link}</span>
+              <span className="text-break" key={index}><i class="bi bi-link-45deg"></i> {link} &nbsp;</span>
             ))}
           </div>
           <hr />
@@ -514,18 +545,126 @@ function ResumeBuilder() {
           </ul>
         </div>
       </div>
-      {/* Resume Preview End ------------------------- */}
+      {/* Resume Preview End 1 ------------------------- */}
 
       {/* Print resume button --------------------- */}
       <div className="button mt-4">
         {/* <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button> */}
-        <button className="btn btn-dark" onClick={handleDownloadPDF}>
+        <button className="btn btn-dark" onClick={handleDownloadPDF1}>
+          Download Resume as PDF
+        </button>
+      </div>
+
+
+      {/* Resume Preview Start 2 ------------------------- */}
+      <h2 className="text-center mt-4 mb-3">Resume 2</h2>
+      <div className="border border-dark" >
+        <div id="print-preview2">
+          <div className="row">
+            <div className="col-lg-8 col-sm-12">
+              <h1 className="name text-uppercase" >{fullName}</h1>
+              <span className="text-break" style={{ fontSize: '12px' }}>{about}</span>
+            </div>
+            <div className="col-lg-4 col-sm-12">
+              <div className="details" style={{ textAlign: 'right' }}>
+                {email} <i class="bi bi-envelope-fill"></i> <br />
+                {phoneNumber} <i class="bi bi-telephone-fill"></i><br />
+                {address} <i class="bi bi-geo-alt-fill"></i><br />
+                {links.map((link, index) => (
+                  <span className="text-break" key={index}> {link} <i class="bi bi-link-45deg"></i><br /></span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div className="row">
+            <div className="col-lg-7 col-sm-12">
+              {showExperienceSection && ( // Conditional rendering based on checkbox and experiences
+                <div>
+                  <h3>Experience</h3>
+                  <ul>
+                    {experiences.map((experience, index) => (
+                      <li key={index}>
+                        <b>
+                          <span className="text-break">{experience.company}</span> -
+                          <span className="text-break"> {experience.position}</span>
+                        </b>
+                        <span className="text-break"> ({experience.companyDate})</span> <br />
+                        <span className="text-break">{experience.companyDes}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <hr />
+                </div>
+              )}
+              <h3>Projects</h3>
+              <ul>
+                {projects.map((project, index) => (
+                  <li key={index}>
+                    <strong className="text-break" >{project.title}:</strong> <br />
+                    <span className="text-break">{project.description}</span>
+                  </li>
+                ))}
+              </ul>
+              <hr />
+              <h3>Certification</h3>
+              <ul>
+                {certificationCourse.map((certification, index) => (
+                  <li className="text-break" key={index}>
+                    {certification.title}
+                  </li>
+                ))}
+              </ul>
+
+            </div>
+            <div className="col-lg-5 col-sm-12">
+              <h3>Skills</h3>
+              <ul>
+                {skills.map((skill, index) => (
+                  // <li className="text-break" key={index}>{skill}</li>
+                  <li className="text-break list-inline-item " key={index}><span class="badge bg-dark">{skill}</span></li>
+                ))}
+              </ul>
+              <hr />
+              <h3>Education</h3>
+              <ul>
+                {educations.map((education, index) => (
+                  <li key={index}>
+                    <b>
+                      <span className="text-break">{education.institute}</span> <br />
+                      <span className="text-break"> {education.degree}</span>
+                    </b> <br />
+                    <span className="text-break"> {education.date}</span> <br />
+                    <span className="text-break">{education.marks}</span>
+                  </li>
+                ))}
+              </ul>
+              <hr />
+
+              <h3>Interests</h3>
+              <ul>
+                {interests.map((interest, index) => (
+                  <li className="text-break" key={index}>{interest}</li>
+                ))}
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Resume Preview End 2 ------------------------- */}
+
+
+      {/* Print resume button --------------------- */}
+      <div className="button mt-4">
+        {/* <button className="btn btn-dark" onClick={handlePrint}>Print Resume</button> */}
+        <button className="btn btn-dark" onClick={handleDownloadPDF2}>
           Download Resume as PDF
         </button>
       </div>
 
       {/* Footer */}
-      <footer className="container footer  bg-dark text-white text-center " style={{ marginTop: "30px" }}>
+      <footer className="container footer  bg-dark text-white text-center p-2" style={{ marginTop: "30px" }}>
         <div className="container">
           <span>
             – Thanks for visiting! – <br />
