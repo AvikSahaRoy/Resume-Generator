@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import './App.css';
 import Swal from 'sweetalert2'
 import Logo from './Logo.png';
@@ -244,6 +244,8 @@ function ResumeBuilder() {
 
     html2pdf().from(element).set(opt).save();
   };
+
+  
 
 
   return (
